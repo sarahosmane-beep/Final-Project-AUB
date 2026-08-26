@@ -14,7 +14,7 @@
 ## CI evidence
 
 - Workflow file: `.github/workflows/ci.yml`.
-- Latest run link or note: not available locally; push the `final-project` branch to GitHub and confirm the first Actions run is green before LMS submission.
+- Verified green run: https://github.com/sarahosmane-beep/Final-Project-AUB/actions/runs/32986857615 (all test steps passed on 2026-08-26).
 - Test command used by CI: `python -m pytest -q`.
 - Dependency setup: Python 3.12 with `python -m pip install -r requirements.txt`.
 - Shortcut check: no `continue-on-error`, no `|| true`, and pytest is not skipped.
@@ -23,7 +23,7 @@
 
 - Build command: `docker build -t task-tracker-final .`.
 - Run command: `docker run --rm -p 8000:8000 --name task-tracker-final task-tracker-final`.
-- `/health` check: pending a working Docker engine. On 2026-08-26 Docker Desktop was started, but its diagnostic state reported `wslUpdateRequired: true`; a direct check confirmed that Windows Subsystem for Linux is not installed. Attempts to invoke the standard WSL installer from this session did not enable the Windows feature, so a restart/elevated Windows setup is required before a container result can be claimed.
+- `/health` check: pending a working Docker engine. On 2026-08-26 Docker Desktop reported `wslUpdateRequired: true`. The Windows Subsystem for Linux and Virtual Machine Platform features were then enabled successfully in an Administrator session; Windows must restart before Docker can use them, so no container result is claimed yet.
 - Non-root check: the Dockerfile creates `appuser` and switches to it before the runtime command.
 - No-baked-secrets check: `.dockerignore` excludes `.env` and `.env.*` while allowing only the placeholder `.env.example`; the Dockerfile copies only `requirements.txt`, `app/`, and `frontend/`.
 - Runtime command check: explicit Uvicorn command binds `0.0.0.0:8000`.
@@ -40,6 +40,5 @@
 
 ## Remaining submission checks
 
-1. From an Administrator PowerShell window, run `wsl --install`, restart Windows if prompted, then start Docker Desktop. Repeat the documented build/run/health commands and replace the pending Docker note with the actual HTTP 200 result.
-2. Add the intended GitHub repository as a remote, commit the final-project files, push branch `final-project`, open the GitHub Actions run, and add its green run URL above.
-3. Submit the public GitHub repository URL only, as required by the brief.
+1. Restart Windows, then start Docker Desktop. Repeat the documented build/run/health commands and replace the pending Docker note with the actual HTTP 200 result.
+2. Submit the public GitHub repository URL only, as required by the brief.
