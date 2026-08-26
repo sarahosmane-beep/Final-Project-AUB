@@ -23,8 +23,10 @@
 
 - Build command: `docker build -t task-tracker-final .`.
 - Run command: `docker run --rm -p 8000:8000 --name task-tracker-final task-tracker-final`.
-- `/health` check: pending a working Docker engine. On 2026-08-26 Docker Desktop reported `wslUpdateRequired: true`. The Windows Subsystem for Linux and Virtual Machine Platform features were then enabled successfully in an Administrator session; Windows must restart before Docker can use them, so no container result is claimed yet.
-- Non-root check: the Dockerfile creates `appuser` and switches to it before the runtime command.
+- Build result: successful on Docker Engine 29.3.1 using Docker Desktop 4.66.1 on 2026-08-26.
+- `/health` check: HTTP 200 with `{"status":"ok","timestamp":"2026-08-26T17:00:40.602026+00:00"}` from the running container.
+- Frontend check: HTTP 200 from `/` in the running container.
+- Non-root check: `docker exec task-tracker-final whoami` returned `appuser`.
 - No-baked-secrets check: `.dockerignore` excludes `.env` and `.env.*` while allowing only the placeholder `.env.example`; the Dockerfile copies only `requirements.txt`, `app/`, and `frontend/`.
 - Runtime command check: explicit Uvicorn command binds `0.0.0.0:8000`.
 
@@ -40,5 +42,4 @@
 
 ## Remaining submission checks
 
-1. Restart Windows, then start Docker Desktop. Repeat the documented build/run/health commands and replace the pending Docker note with the actual HTTP 200 result.
-2. Submit the public GitHub repository URL only, as required by the brief.
+1. Submit the public GitHub repository URL only, as required by the brief.
